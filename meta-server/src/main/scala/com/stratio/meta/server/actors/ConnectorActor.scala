@@ -1,13 +1,10 @@
 package com.stratio.meta.server.actors
 
-import akka.actor.{ Props, ActorRef, ActorLogging, Actor, ActorSelection }
+import akka.actor.{Actor, ActorLogging, ActorSelection, Props, ReceiveTimeout, RootActorPath}
 import akka.cluster.ClusterEvent._
-import akka.actor.RootActorPath
-import akka.cluster.Cluster
-import akka.actor.ReceiveTimeout
 
 object ConnectorActor {
-  def props(): Props = Props(new ConnectorActor())
+  def props(): Props = Props(new ConnectorActor)
 }
 
 class ConnectorActor extends Actor with ActorLogging {
@@ -16,15 +13,8 @@ class ConnectorActor extends Actor with ActorLogging {
 
   var connectorsMap: Map[String, ActorSelection] = Map()
 
-  override def preStart(): Unit = {
-    //#subscribe
-    Cluster(context.system).subscribe(self, classOf[MemberEvent])
-    //cluster.subscribe(self, initialStateMode = InitialStateAsEvents, classOf[MemberEvent], classOf[UnreachableMember])
-  }
-  override def postStop(): Unit =
-    Cluster(context.system).unsubscribe(self)
 
-  def receive = {
+   def receive = {
     
     case MemberUp(member) =>
     println("Member is Up: " + member.toString + member.getRoles.toString())
