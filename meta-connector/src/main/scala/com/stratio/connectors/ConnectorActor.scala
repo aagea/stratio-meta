@@ -4,7 +4,6 @@ import akka.actor.{ActorLogging, ActorRef, Props}
 import akka.cluster.Cluster
 import akka.cluster.ClusterEvent._
 import com.stratio.meta.common.connector.IConnector
-import com.stratio.meta.common.logicalplan.LogicalWorkflow
 import com.stratio.meta.common.result.{CommandResult, MetadataResult, QueryResult, Result}
 import com.stratio.meta.communication._
 
@@ -65,11 +64,11 @@ class ConnectorActor(connectorName: String, conn: IConnector) extends HeartbeatA
       this.shutdown()
     }
 
-    case wf: LogicalWorkflow => {
+    case ex:Execute=>{
       try {
-        connector.getQueryEngine().execute(wf)
+        connector.getQueryEngine().execute(ex.workflow)
         val result = QueryResult.createSuccessQueryResult() //TODO: ADD RESULTSET
-        result.setQueryId("TODO: extract a real query ID (it doesn't come in the logicalworkflow)") //TODO
+        result.setQueryId(ex.queryId)
         sender ! result
       } catch {
         case ex: Exception => {
