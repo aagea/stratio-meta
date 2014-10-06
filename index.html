@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Meta : One LANGUAGE to rule them all">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Meta</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/aagea/stratio-meta">View on GitHub</a>
+
+          <h1 id="project_title">Meta</h1>
+          <h2 id="project_tagline">One LANGUAGE to rule them all</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/aagea/stratio-meta/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/aagea/stratio-meta/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="stratio-meta" class="anchor" href="#stratio-meta"><span class="octicon octicon-link"></span></a>stratio-meta</h1>
+
+<p>One LANGUAGE to rule them all</p>
+
+<h1>
+<a name="project-description" class="anchor" href="#project-description"><span class="octicon octicon-link"></span></a>Project description</h1>
+
+<p>Stratio META brings batch and streaming queries into a single language. META provides a distributed fault-tolerant server architecture that has the unique ability to execute queries in Cassandra, Spark, and/or Stratio Streaming. From an architectural point of view, Stratio META is composed of:</p>
+
+<ul>
+<li>meta-common : Definition of common classes used by other components.</li>
+<li>meta-core : Grammar definition, statement parsing, validation, and execution.</li>
+<li>meta-deep : Allows meta-server to support advanced capabilities such as SELECT with INNER JOIN.</li>
+<li>meta-dist : Contains config files and scripts to start/stop meta-server and meta-sh in production environments.</li>
+<li>meta-driver : Java API offered to client applications.</li>
+<li>meta-server : Listens for client connections and executes requested commands.</li>
+<li>meta-sh : The interactive shell; uses meta-driver to connect to the server.</li>
+</ul><h2>
+<a name="full-documentation" class="anchor" href="#full-documentation"><span class="octicon octicon-link"></span></a>Full documentation</h2>
+
+<p>See the Wiki for full documentation, examples, operational details and other information.</p>
+
+<p>See the <a href="">Javadoc</a> and <a href="">Language reference</a> for the internal details.</p>
+
+<h2>
+<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<p>In order to execute META, the following elements are required:</p>
+
+<ol>
+<li>A working installation of Cassandra. The Stratio-cassandra fork is required to support LUCENE indexes.</li>
+<li>A working installation of Stratio Deep. Otherwise, advanced capabilities such as SELECT with INNER JOIN will not be available.</li>
+</ol><h2>
+<a name="compiling-meta" class="anchor" href="#compiling-meta"><span class="octicon octicon-link"></span></a>Compiling META</h2>
+
+<p>Compiling META involves generating a set of files (.tokens, Lexers, and Parsers) from the different grammar files. To automatically build Stratio META execute the following command:</p>
+
+<pre><code>   &gt; mvn clean compile install
+</code></pre>
+
+<h2>
+<a name="running-the-meta-server" class="anchor" href="#running-the-meta-server"><span class="octicon octicon-link"></span></a>Running the META-server</h2>
+
+<pre><code>   &gt; mvn exec:java -DskipTests -pl meta-server -Dexec.mainClass="com.stratio.meta.server.MetaApplication"
+</code></pre>
+
+<h2>
+<a name="running-the-meta-shell" class="anchor" href="#running-the-meta-shell"><span class="octicon octicon-link"></span></a>Running the META-shell</h2>
+
+<p>The META-shell allows users to launch interactive queries against a set of META servers. 
+Works both in Unix and Windows.
+The shell features:</p>
+
+<ul>
+<li>History support (arrow navigation)</li>
+<li>History search (ctrl-r)</li>
+<li>Token completion (tab)</li>
+<li>Help command</li>
+</ul><pre><code>   &gt; mvn exec:java -pl meta-sh -Dexec.mainClass="com.stratio.meta.sh.Metash"
+</code></pre>
+
+<p>The shell also supports asynchronous query execution by means of the --async parameter. This execution mode is required for streaming queries.</p>
+
+<pre><code>   &gt; mvn exec:java -pl meta-sh -Dexec.mainClass="com.stratio.meta.sh.Metash" -Dexec.args="--async"
+</code></pre>
+
+<p>Additionally, you can execute an script upon launching the shell. The script will be executed first, and the prompt will be shown afterwards.</p>
+
+<pre><code>   &gt; mvn exec:java -pl meta-sh -Dexec.mainClass="com.stratio.meta.sh.Metash" -Dexec.args="--script /path/script.metaql"
+</code></pre>
+
+<h2>
+<a name="packaging" class="anchor" href="#packaging"><span class="octicon octicon-link"></span></a>Packaging</h2>
+
+<pre><code>   &gt; mvn package
+</code></pre>
+
+<p>See <a href="https://github.com/Stratio/stratio-meta/edit/release/0.0.4/meta-dist/src/main/include/README.md">this link</a> to know start/stop the server and the shell from the dist packages</p>
+
+<h2>
+<a name="useful-commands" class="anchor" href="#useful-commands"><span class="octicon octicon-link"></span></a>Useful commands</h2>
+
+<p>Once the shell is running, you can exit the program introducing the word <strong>exit</strong> or <strong>quit</strong> in the query prompt. A command help system is available by introducing the command <strong>help</strong>. A help entry is available per command, to check specify help topics use <strong>help command</strong>.</p>
+
+<h2>
+<a name="more-about-the-project" class="anchor" href="#more-about-the-project"><span class="octicon octicon-link"></span></a>More about the project</h2>
+
+<p>You can find more information about this project (tutorials, examples, etc...) in <a href="http://wordpress.dev.strat.io/">http://wordpress.dev.strat.io/</a></p>
+
+<h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>Stratio Meta is licensed as <a href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache2</a></p>
+
+<p>Licensed to STRATIO (C) under one or more contributor license agreements.<br>
+See the NOTICE file distributed with this work for additional information 
+regarding copyright ownership.  The STRATIO (C) licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at</p>
+
+<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+
+<p>Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Meta maintained by <a href="https://github.com/aagea">aagea</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
